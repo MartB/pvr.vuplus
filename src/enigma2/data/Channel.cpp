@@ -222,7 +222,11 @@ bool Channel::HasRadioServiceType()
   if (found != std::string::npos)
     radioServiceType = radioServiceType.substr(0, found);
 
-  return radioServiceType == RADIO_SERVICE_TYPE;
+  if (radioServiceType.empty())
+    return false;
+
+  char e2ServiceType = toupper(radioServiceType[0]);
+  return std::find(RADIO_SERVICE_TYPES.begin(), RADIO_SERVICE_TYPES.end(), e2ServiceType) != RADIO_SERVICE_TYPES.end();
 }
 
 void Channel::UpdateTo(kodi::addon::PVRChannel& left) const
